@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Women Leaders in Digital Health — Interactive Database</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── DESIGN TOKENS ── */
+  :root {
+    --blue:     #0055FF;
+    --blue-lt:  #E8F0FF;
+    --cyan:     #00C8FF;
+    --green:    #00E676;
+    --green-dk: #00916A;
+    --amber:    #FFB300;
+    --ink:      #0D1628;
+    --ink-2:    #3A4560;
+    --ink-3:    #8494AD;
+    --rule:     #C8D4E8;
+    --rule-lt:  #EBF0F8;
+    --bg:       #F6F9FF;
+    --white:    #FFFFFF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── DOT GRID BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--rule) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 48px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .brand-pip {
+    width: 8px; height: 8px;
+    background: var(--blue);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .brand-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .header-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    border-left: 1px solid var(--rule);
+    padding-left: 16px;
+    margin-left: 4px;
+  }
+
+  .header-title span { color: var(--blue); }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stat-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    border: 1px solid var(--rule);
+    padding: 5px 12px;
+    background: var(--bg);
+  }
+
+  .stat-pill strong {
+    color: var(--blue);
+    font-weight: 500;
+  }
+
+  /* ── HERO BAND ── */
+  .hero {
+    background: var(--blue);
+    padding: 40px 48px 36px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Corner crosshairs on hero */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 16px; height: 16px;
+    border-top: 1.5px solid rgba(255,255,255,0.4);
+    border-right: 1.5px solid rgba(255,255,255,0.4);
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px; height: 1px;
+    background: var(--cyan);
+  }
+
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    position: relative;
+    max-width: 600px;
+  }
+
+  .hero h1 span { color: var(--cyan); }
+
+  .hero-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    margin-top: 10px;
+    position: relative;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--white);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 48px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    z-index: 1;
+    position: relative;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 32px;
+    background: var(--rule);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main-layout {
+    display: flex;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 48px;
+    gap: 24px;
+  }
+
+  /* ── FILTER PANEL ── */
+  .filter-panel {
+    width: 240px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: var(--white);
+    border: 1px solid var(--rule);
+    height: fit-content;
+    position: sticky;
+    top: 88px;
+  }
+
+  .filter-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .filter-header-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .filter-header-label::before {
+    content: '';
+    display: block;
+    width: 12px; height: 1px;
+    background: var(--blue);
+  }
+
+  .filter-reset {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    cursor: pointer;
+    border: none;
+    background: none;
+    text-transform: uppercase;
+  }
+
+  .filter-reset:hover { color: var(--blue); }
+
+  /* Search */
+  .search-wrap {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .search-input {
+    width: 100%;
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    padding: 8px 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    outline: none;
+  }
+
+  .search-input::placeholder { color: var(--ink-3); }
+  .search-input:focus { border-color: var(--blue); }
+
+  .filter-group {
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .filter-group-header {
+    padding: 10px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg);
+    user-select: none;
+  }
+
+  .filter-group-header:hover { color: var(--ink); }
+
+  .filter-chevron {
+    font-size: 8px;
+    color: var(--ink-3);
+    transition: transform 0.2s;
+  }
+
+  .filter-options {
+    padding: 8px 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .filter-checkbox {
+    width: 12px; height: 12px;
+    border: 1px solid var(--rule);
+    flex-shrink: 0;
+    position: relative;
+    background: var(--white);
+  }
+
+  .filter-checkbox.checked {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+
+  .filter-checkbox.checked::after {
+    content: '';
+    position: absolute;
+    top: 1px; left: 3px;
+    width: 4px; height: 7px;
+    border-right: 1.5px solid white;
+    border-bottom: 1.5px solid white;
+    transform: rotate(45deg);
+  }
+
+  .filter-option-label {
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.3;
+  }
+
+  .filter-option-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-3);
+    margin-left: auto;
+  }
+
+  /* ── CONTENT AREA ── */
+  .content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .results-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--white);
+    border: 1px solid var(--rule);
+  }
+
+  .results-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+  }
+
+  .results-count strong { color: var(--blue); }
+
+  .view-toggle {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--rule);
+  }
+
+  .view-btn {
+    padding: 6px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    background: var(--bg);
+    color: var(--ink-3);
+  }
+
+  .view-btn.active {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  /* ── PROFILE GRID ── */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .profile-card {
+    background: var(--white);
+    padding: 20px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.15s;
+    overflow: hidden;
+  }
+
+  /* crosshair top-right on card */
+  .profile-card::after {
+    content: '';
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 10px; height: 10px;
+    border-top: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    transition: border-color 0.15s;
+  }
+
+  .profile-card:hover { background: var(--bg); }
+  .profile-card:hover::after { border-color: var(--blue); }
+  .profile-card.active { background: var(--blue-lt); border-left: 2px solid var(--blue); }
+
+  .card-top {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+
+  .card-photo {
+    width: 52px; height: 52px;
+    border: 1px solid var(--rule);
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--bg);
+  }
+
+  .card-identity { flex: 1; min-width: 0; }
+
+  .card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 2px;
+  }
+
+  .card-role {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.4;
+  }
+
+  .card-org {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--blue);
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 3px 8px;
+    border: 1px solid var(--rule);
+    color: var(--ink-3);
+    background: var(--bg);
+    white-space: nowrap;
+  }
+
+  .tag.blue {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: var(--blue-lt);
+  }
+
+  .tag.green {
+    border-color: var(--green-dk);
+    color: var(--green-dk);
+    background: #E5FFF6;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid var(--rule-lt);
+  }
+
+  .card-country {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .country-dot {
+    width: 5px; height: 5px;
+    background: var(--cyan);
+    border-radius: 50%;
+  }
+
+  .card-arrow {
+    font-size: 11px;
+    color: var(--rule);
+    transition: color 0.15s, transform 0.15s;
+  }
+
+  .profile-card:hover .card-arrow {
+    color: var(--blue);
+    transform: translateX(3px);
+  }
+
+  /* ── PROFILE DETAIL PANEL ── */
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,22,40,0.5);
+    z-index: 200;
+    backdrop-filter: blur(2px);
+  }
+
+  .detail-overlay.open { display: flex; justify-content: flex-end; }
+
+  .detail-panel {
+    width: 480px;
+    background: var(--white);
+    height: 100%;
+    overflow-y: auto;
+    border-left: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.25s ease;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(40px); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+
+  .detail-header {
+    background: var(--blue);
+    padding: 32px 32px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .detail-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .detail-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 28px; height: 28px;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: none;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+
+  .detail-close:hover { background: rgba(255,255,255,0.1); color: white; }
+
+  .detail-photo-wrap {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+  }
+
+  .detail-photo {
+    width: 80px; height: 80px;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: var(--blue-lt);
+  }
+
+  .detail-identity { flex: 1; }
+
+  .detail-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .detail-role {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 2px;
+  }
+
+  .detail-org {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cyan);
+  }
+
+  .detail-body {
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+  }
+
+  .detail-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .detail-section-label::before {
+    content: '';
+    display: block;
+    width: 16px; height: 1px;
+    background: var(--blue);
+  }
+
+  .detail-bio {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+
+  .detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .detail-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .detail-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 10px 12px;
+    background: var(--bg);
+    border: 1px solid var(--rule-lt);
+  }
+
+  .detail-meta-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .detail-meta-val {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .detail-callout {
+    border-left: 2px solid var(--green);
+    padding: 12px 16px;
+    background: #F0FFF9;
+  }
+
+  .detail-callout p {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  .detail-callout strong { color: var(--green-dk); }
+
+  .detail-linkedin {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    background: var(--blue-lt);
+    width: fit-content;
+    transition: background 0.15s;
+  }
+
+  .detail-linkedin:hover {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  /* ── MAP PLACEHOLDER ── */
+  .map-section {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .map-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg);
+  }
+
+  .map-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .map-label::before {
+    content: '';
+    width: 12px; height: 1px;
+    background: var(--blue);
+  }
+
+  .map-canvas {
+    height: 160px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* SVG world map dots */
+  .map-canvas svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg);
+    border-top: 1px solid var(--rule-lt);
+    padding: 16px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .footer-info {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+
+  .footer-colors {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+  }
+
+  /* Active filter tags */
+  .active-filters {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .active-filter-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border: 1px solid var(--blue);
+    color: var(--blue);
+    background: var(--blue-lt);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .remove-filter {
+    cursor: pointer;
+    font-size: 10px;
+    color: var(--blue);
+    opacity: 0.6;
+  }
+  .remove-filter:hover { opacity: 1; }
+
+  @keyframes loadbar {
+    from { transform: scaleX(0.3); opacity: 0.4; }
+    to   { transform: scaleX(1);   opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <div class="brand-pip"></div>
+    <span class="brand-name">Transform Health</span>
+    <span class="header-title">Women Leaders in <span>Digital Health</span></span>
+  </div>
+  <div class="header-right">
+    <div class="stat-pill">Database v1.0 · <strong>POC</strong></div>
+    <div class="stat-pill">Updated <strong>Mar 2026</strong></div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Women Leaders · Digital Health · Global Directory</div>
+  <h1>Discover <span>Women Leaders</span><br>Shaping Digital Health</h1>
+  <p class="hero-sub">An interactive, searchable database of women leaders driving innovation, policy and equity across global digital health ecosystems.</p>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-value" id="total-count">15</span>
+    <span class="stat-label">Leaders Profiled</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-value">6</span>
+    <span class="stat-label">Regions Covered</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-value">12</span>
+    <span class="stat-label">Countries</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-value">9</span>
+    <span class="stat-label">Sectors</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-value">8</span>
+    <span class="stat-label">Languages</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-layout">
+
+  <!-- FILTER PANEL -->
+  <aside class="filter-panel">
+    <div class="filter-header">
+      <span class="filter-header-label">Filters</span>
+      <button class="filter-reset" onclick="resetFilters()">Reset</button>
+    </div>
+
+    <div class="search-wrap">
+      <input class="search-input" type="text" placeholder="Search by name, org, expertise…" id="search-input" oninput="applyFilters()">
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-group-header" onclick="toggleGroup(this)">
+        Region <span class="filter-chevron">▼</span>
+      </div>
+      <div class="filter-options" id="region-filters">
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">North America</span>
+          <span class="filter-option-count">8</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">South Asia</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">East Africa</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Europe</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Sub-Saharan Africa</span>
+          <span class="filter-option-count">1</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-group-header" onclick="toggleGroup(this)">
+        Sector <span class="filter-chevron">▼</span>
+      </div>
+      <div class="filter-options" id="sector-filters">
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Health Technology</span>
+          <span class="filter-option-count">3</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Academia & AI Research</span>
+          <span class="filter-option-count">3</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Non-Profit & Education</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Global Health & Policy</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Biotechnology</span>
+          <span class="filter-option-count">1</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Civic Technology</span>
+          <span class="filter-option-count">1</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-group-header" onclick="toggleGroup(this)">
+        Role <span class="filter-chevron">▼</span>
+      </div>
+      <div class="filter-options">
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">CEO / Founder</span>
+          <span class="filter-option-count">6</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Professor / Researcher</span>
+          <span class="filter-option-count">4</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Board Director</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Director-General</span>
+          <span class="filter-option-count">1</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-group-header" onclick="toggleGroup(this)">
+        Language <span class="filter-chevron">▼</span>
+      </div>
+      <div class="filter-options">
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">English</span>
+          <span class="filter-option-count">15</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">French</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Hindi</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Swahili</span>
+          <span class="filter-option-count">2</span>
+        </label>
+        <label class="filter-option">
+          <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+          <span class="filter-option-label">Mandarin</span>
+          <span class="filter-option-count">1</span>
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <!-- Map -->
+    <div class="map-section">
+      <div class="map-header">
+        <span class="map-label">Geographic Distribution</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-3);letter-spacing:0.1em;text-transform:uppercase;">● Live · 12 Countries</span>
+      </div>
+      <div class="map-canvas">
+        <!-- Schematic world map with dots representing leaders -->
+        <svg viewBox="0 0 900 160" xmlns="http://www.w3.org/2000/svg" style="opacity:0.9">
+          <!-- Grid lines -->
+          <defs>
+            <pattern id="mapgrid" width="45" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 45 0 L 0 0 0 40" fill="none" stroke="#C8D4E8" stroke-width="0.5" opacity="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="900" height="160" fill="#F6F9FF"/>
+          <rect width="900" height="160" fill="url(#mapgrid)"/>
+
+          <!-- Equator line -->
+          <line x1="0" y1="80" x2="900" y2="80" stroke="#C8D4E8" stroke-width="0.5" stroke-dasharray="4,4"/>
+
+          <!-- Simplified continent outlines -->
+          <!-- North America -->
+          <path d="M 120,30 L 200,25 L 240,40 L 260,70 L 240,100 L 200,110 L 170,100 L 140,80 L 120,60 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
+          <!-- South America -->
+          <path d="M 200,115 L 240,110 L 260,130 L 255,155 L 220,158 L 195,145 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
+          <!-- Europe -->
+          <path d="M 400,20 L 460,18 L 475,35 L 460,55 L 420,58 L 395,45 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
+          <!-- Africa -->
+          <path d="M 420,65 L 475,60 L 490,85 L 485,130 L 460,150 L 430,148 L 410,125 L 405,90 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
+          <!-- Asia -->
+          <path d="M 490,15 L 650,12 L 700,35 L 720,60 L 680,75 L 600,80 L 520,70 L 490,50 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
+          <!-- Southeast Asia / Oceania -->
+          <path d="M 690,90 L 750,85 L 800,100 L 820,130 L 780,148 L 730,140 L 700,120 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
+
+          <!-- Leader location dots -->
+          <!-- USA x4 -->
+          <circle cx="175" cy="62" r="6" fill="#0055FF" opacity="0.85"/>
+          <circle cx="175" cy="62" r="10" fill="#0055FF" opacity="0.15"/>
+          <text x="175" y="59" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">8</text>
+
+          <!-- India -->
+          <circle cx="580" cy="68" r="5" fill="#00C8FF" opacity="0.9"/>
+          <circle cx="580" cy="68" r="9" fill="#00C8FF" opacity="0.2"/>
+          <text x="580" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">2</text>
+
+          <!-- Kenya -->
+          <circle cx="460" cy="100" r="5" fill="#00C8FF" opacity="0.9"/>
+          <circle cx="460" cy="100" r="9" fill="#00C8FF" opacity="0.2"/>
+          <text x="460" y="97" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">2</text>
+
+          <!-- Nigeria -->
+          <circle cx="430" cy="95" r="4" fill="#00916A" opacity="0.9"/>
+          <circle cx="430" cy="95" r="8" fill="#00916A" opacity="0.2"/>
+          <text x="430" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">1</text>
+
+          <!-- UK -->
+          <circle cx="415" cy="32" r="4" fill="#00C8FF" opacity="0.9"/>
+          <circle cx="415" cy="32" r="8" fill="#00C8FF" opacity="0.2"/>
+          <text x="415" y="29" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">1</text>
+
+          <!-- Spain -->
+          <circle cx="425" cy="42" r="4" fill="#00C8FF" opacity="0.9"/>
+          <circle cx="425" cy="42" r="8" fill="#00C8FF" opacity="0.2"/>
+          <text x="425" y="39" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">1</text>
+
+          <!-- Legend -->
+          <circle cx="720" cy="20" r="5" fill="#0055FF" opacity="0.85"/>
+          <text x="730" y="24" font-family="JetBrains Mono" font-size="8" fill="#8494AD" letter-spacing="0.05em">HIGH DENSITY</text>
+          <circle cx="720" cy="38" r="4" fill="#00C8FF" opacity="0.85"/>
+          <text x="730" y="42" font-family="JetBrains Mono" font-size="8" fill="#8494AD" letter-spacing="0.05em">2–3 LEADERS</text>
+          <circle cx="720" cy="55" r="3" fill="#00916A" opacity="0.85"/>
+          <text x="730" y="59" font-family="JetBrains Mono" font-size="8" fill="#8494AD" letter-spacing="0.05em">1 LEADER</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Results bar -->
+    <div class="results-bar">
+      <span class="results-count"><strong id="shown-count">15</strong> profiles shown</span>
+      <div class="active-filters" id="active-filters"></div>
+      <div class="view-toggle">
+        <button class="view-btn active">Grid</button>
+        <button class="view-btn">List</button>
+      </div>
+    </div>
+
+    <!-- Profile Grid -->
+    <div class="profile-grid" id="profile-grid"></div>
+
+  </div>
+</div>
+
+<!-- DETAIL PANEL OVERLAY -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detail-panel">
+    <div class="detail-header">
+      <button class="detail-close" onclick="closeDetailPanel()">✕</button>
+      <div class="detail-photo-wrap">
+        <img class="detail-photo" id="detail-photo" src="" alt="">
+        <div class="detail-identity">
+          <div class="detail-name" id="detail-name"></div>
+          <div class="detail-role" id="detail-role"></div>
+          <div class="detail-org" id="detail-org"></div>
+        </div>
+      </div>
+    </div>
+    <div class="detail-body">
+      <div>
+        <div class="detail-section-label">Profile</div>
+        <p class="detail-bio" id="detail-bio"></p>
+      </div>
+      <div>
+        <div class="detail-section-label">Expertise</div>
+        <div class="detail-tags" id="detail-expertise"></div>
+      </div>
+      <div>
+        <div class="detail-section-label">Details</div>
+        <div class="detail-meta-grid" id="detail-meta"></div>
+      </div>
+      <div class="detail-callout">
+        <p id="detail-callout-text"></p>
+      </div>
+      <a class="detail-linkedin" id="detail-linkedin" href="#" target="_blank">
+        ↗ View LinkedIn Profile
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="brand-pip"></div>
+    Transform Health Coalition
+  </div>
+  <div class="footer-info">Women Leaders Database · POC · March 2026</div>
+  <div class="footer-colors">#0055FF · #00C8FF · #00916A</div>
+</footer>
+
+<script>
+// ── GOOGLE SHEETS LIVE DATA ──
+// Inline fallback — used when file:// blocks fetch()
+const PROFILES_INLINE = [
+  {
+    "name": "Safra Catz",
+    "photo": "images/img1.png",
+    "country": "United States",
+    "region": "North America",
+    "company": "Oracle",
+    "role": "CEO",
+    "sector": "Enterprise Technology",
+    "expertise": [
+      "Cloud Infrastructure",
+      "ERP",
+      "Finance"
+    ],
+    "language": [
+      "English"
+    ],
+    "bio": "Safra Catz has served as CEO of Oracle since 2014, overseeing one of the world's largest enterprise software companies. She is known for her financial acumen and has driven Oracle's aggressive cloud transformation strategy.",
+    "linkedin": "https://linkedin.com/in/safra-catz"
+  },
+  {
+    "name": "Fei-Fei Li",
+    "photo": "images/img1.png",
+    "country": "United States",
+    "region": "North America",
+    "company": "Stanford University",
+    "role": "Professor & Co-Director",
+    "sector": "Academia & AI Research",
+    "expertise": [
+      "Artificial Intelligence",
+      "Computer Vision",
+      "Machine Learning"
+    ],
+    "language": [
+      "English",
+      "Mandarin"
+    ],
+    "bio": "Fei-Fei Li is a leading AI researcher and Professor at Stanford University. She co-founded AI4ALL to increase diversity in AI and previously served as Chief Scientist of AI/ML at Google Cloud.",
+    "linkedin": "https://linkedin.com/in/fei-fei-li"
+  },
+  {
+    "name": "Reshma Saujani",
+    "photo": "images/img2.png",
+    "country": "United States",
+    "region": "North America",
+    "company": "Girls Who Code",
+    "role": "Founder & CEO",
+    "sector": "Non-Profit & Education",
+    "expertise": [
+      "Gender Equity",
+      "Coding Education",
+      "Social Impact"
+    ],
+    "language": [
+      "English"
+    ],
+    "bio": "Reshma Saujani founded Girls Who Code in 2012 to close the gender gap in technology. The organisation has reached over 500,000 girls across the US and 6 other countries with coding and tech education programs.",
+    "linkedin": "https://linkedin.com/in/reshma-saujani"
+  },
+  {
+    "name": "Kiran Mazumdar-Shaw",
+    "photo": "images/img2.png",
+    "country": "India",
+    "region": "South Asia",
+    "company": "Biocon",
+    "role": "Executive Chairperson",
+    "sector": "Biotechnology & Health",
+    "expertise": [
+      "Biotech",
+      "Healthcare Innovation",
+      "Drug Discovery"
+    ],
+    "language": [
+      "English",
+      "Kannada"
+    ],
+    "bio": "Kiran Mazumdar-Shaw founded Biocon in 1978 and built it into India's largest biopharmaceutical company. She is a pioneer in affordable biosimilars and has been instrumental in making biologics accessible in emerging markets.",
+    "linkedin": "https://linkedin.com/in/kiran-mazumdar-shaw"
+  },
+  {
+    "name": "Ngozi Okonjo-Iweala",
+    "photo": "images/img2.png",
+    "country": "Nigeria",
+    "region": "Sub-Saharan Africa",
+    "company": "World Trade Organization",
+    "role": "Director-General",
+    "sector": "Global Health & Policy",
+    "expertise": [
+      "Digital Trade",
+      "Health Policy",
+      "Economic Development"
+    ],
+    "language": [
+      "English",
+      "French",
+      "Igbo"
+    ],
+    "bio": "Dr. Ngozi Okonjo-Iweala became the first woman and first African to lead the WTO in 2021. She has championed digital trade frameworks and equitable access to health technologies for developing nations.",
+    "linkedin": "https://linkedin.com/in/ngozi-okonjo-iweala"
+  },
+  {
+    "name": "Anne Wojcicki",
+    "photo": "images/img1.png",
+    "country": "United States",
+    "region": "North America",
+    "company": "23andMe",
+    "role": "Co-Founder & CEO",
+    "sector": "Health Technology",
+    "expertise": [
+      "Genomics",
+      "Personalised Medicine",
+      "Consumer Health"
+    ],
+    "language": [
+      "English"
+    ],
+    "bio": "Anne Wojcicki co-founded 23andMe in 2006, pioneering direct-to-consumer genetic testing. She has driven the democratisation of genomic data and its application to personalised healthcare and drug discovery.",
+    "linkedin": "https://linkedin.com/in/anne-wojcicki"
+  },
+  {
+    "name": "Juliana Rotich",
+    "photo": "images/img3.png",
+    "country": "Kenya",
+    "region": "East Africa",
+    "company": "Venture Capital",
+    "role": "Tech Investor & Entrepreneur",
+    "sector": "Civic Technology",
+    "expertise": [
+      "Digital Infrastructure",
+      "Open Source",
+      "Innovation Ecosystems"
+    ],
+    "language": [
+      "English",
+      "Swahili"
+    ],
+    "bio": "Juliana Rotich is a Kenyan technologist and co-founder of Ushahidi, a globally recognised open-source crisis mapping platform. She serves on multiple boards and champions digital infrastructure development across Africa.",
+    "linkedin": "https://linkedin.com/in/juliana-rotich"
+  },
+  {
+    "name": "Padmasree Warrior",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Padmasree_Warrior_-_2013_%28cropped%29.jpg/440px-Padmasree_Warrior_-_2013_%28cropped%29.jpg",
+    "country": "United States",
+    "region": "North America",
+    "company": "Fable",
+    "role": "Founder & CEO",
+    "sector": "Consumer Technology",
+    "expertise": [
+      "Autonomous Vehicles",
+      "IoT",
+      "Digital Strategy"
+    ],
+    "language": [
+      "English",
+      "Telugu"
+    ],
+    "bio": "Padmasree Warrior is former CTO of Cisco and Motorola and founder of Fable, an interactive storytelling platform. She is recognised as one of the most powerful women in technology globally.",
+    "linkedin": "https://linkedin.com/in/padmasree-warrior"
+  },
+  {
+    "name": "Ory Okolloh",
+    "photo": "images/img1.png",
+    "country": "Kenya",
+    "region": "East Africa",
+    "company": "Various Boards",
+    "role": "Activist & Investor",
+    "sector": "Civic Technology",
+    "expertise": [
+      "Civic Tech",
+      "Open Government",
+      "Digital Rights"
+    ],
+    "language": [
+      "English",
+      "Swahili"
+    ],
+    "bio": "Ory Okolloh is a Kenyan lawyer, activist and technologist who co-founded Ushahidi. She previously led Google's Policy and Government Relations for Africa and is a prominent voice on digital rights and open governance.",
+    "linkedin": "https://linkedin.com/in/ory-okolloh"
+  },
+  {
+    "name": "Mariana Mazzucato",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Mariana_Mazzucato_%282019%29_%28cropped%29.jpg/440px-Mariana_Mazzucato_%282019%29_%28cropped%29.jpg",
+    "country": "United Kingdom",
+    "region": "Europe",
+    "company": "University College London",
+    "role": "Professor & Founder",
+    "sector": "Academia & Policy",
+    "expertise": [
+      "Innovation Policy",
+      "Public Health",
+      "Digital Economy"
+    ],
+    "language": [
+      "English",
+      "Italian"
+    ],
+    "bio": "Mariana Mazzucato is a world-renowned economist and founder of the UCL Institute for Innovation and Public Purpose. She advises governments globally on mission-driven innovation and has shaped digital health investment policy at WHO.",
+    "linkedin": "https://linkedin.com/in/mariana-mazzucato"
+  },
+  {
+    "name": "Neha Narkhede",
+    "photo": "https://ui-avatars.com/api/?name=Neha+Narkhede&size=200&background=E8635A&color=fff",
+    "country": "United States",
+    "region": "North America",
+    "company": "Oscilar",
+    "role": "Co-Founder & CEO",
+    "sector": "Data & Analytics",
+    "expertise": [
+      "Data Streaming",
+      "Apache Kafka",
+      "Fintech"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "bio": "Neha Narkhede co-founded Confluent and was the original creator of Apache Kafka at LinkedIn. She is now CEO of Oscilar, building AI-powered risk decisioning platforms for financial institutions.",
+    "linkedin": "https://linkedin.com/in/neha-narkhede"
+  },
+  {
+    "name": "Radhika Aggarwal",
+    "photo": "images/img1.png",
+    "country": "India",
+    "region": "South Asia",
+    "company": "ShopClues",
+    "role": "Co-Founder & Chief Business Officer",
+    "sector": "E-Commerce",
+    "expertise": [
+      "E-Commerce",
+      "Retail Tech",
+      "Entrepreneurship"
+    ],
+    "language": [
+      "English",
+      "Hindi"
+    ],
+    "bio": "Radhika Aggarwal co-founded ShopClues, one of India's leading online marketplaces. She has been instrumental in bringing tier-2 and tier-3 city merchants online and democratising e-commerce across India.",
+    "linkedin": "https://linkedin.com/in/radhika-aggarwal"
+  },
+  {
+    "name": "Shafi Goldwasser",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Shafi_Goldwasser.jpg/440px-Shafi_Goldwasser.jpg",
+    "country": "United States",
+    "region": "North America",
+    "company": "MIT & UC Berkeley",
+    "role": "Professor",
+    "sector": "Academia & Cybersecurity",
+    "expertise": [
+      "Cryptography",
+      "Cybersecurity",
+      "Theoretical Computer Science"
+    ],
+    "language": [
+      "English",
+      "Hebrew"
+    ],
+    "bio": "Shafi Goldwasser is a two-time Turing Award winner and pioneer in cryptography. Her work on probabilistic encryption and zero-knowledge proofs forms the foundation of modern internet security.",
+    "linkedin": "https://linkedin.com/in/shafi-goldwasser"
+  },
+  {
+    "name": "Nora Denzel",
+    "photo": "https://ui-avatars.com/api/?name=Nora+Denzel&size=200&background=4A90D9&color=fff",
+    "country": "United States",
+    "region": "North America",
+    "company": "Advanced Micro Devices",
+    "role": "Board Director",
+    "sector": "Semiconductors",
+    "expertise": [
+      "Corporate Governance",
+      "Semiconductors",
+      "Digital Equity"
+    ],
+    "language": [
+      "English"
+    ],
+    "bio": "Nora Denzel serves on the boards of AMD and other major tech companies. She is a champion of diversity in tech and has held senior leadership roles at Intuit, HP and Novell throughout her career.",
+    "linkedin": "https://linkedin.com/in/nora-denzel"
+  },
+  {
+    "name": "Alicia Framis",
+    "photo": "images/img1.png",
+    "country": "Spain",
+    "region": "Europe",
+    "company": "AI & Society Lab",
+    "role": "Researcher & Artist",
+    "sector": "Emerging Technology",
+    "expertise": [
+      "AI Ethics",
+      "Human-Computer Interaction",
+      "Digital Society"
+    ],
+    "language": [
+      "English",
+      "Spanish",
+      "Dutch"
+    ],
+    "bio": "Alicia Framis works at the intersection of art, technology and society, exploring how AI shapes human relationships. She leads research initiatives on ethical AI design and digital identity across European institutions.",
+    "linkedin": "https://linkedin.com/in/alicia-framis"
+  }
+];
+
+// ── DATA SOURCE ──
+// To add/edit profiles: update profiles.json (must be in same folder as this HTML)
+// To grow the database: just add more objects to the JSON array
+const DATA_SOURCE = "profiles.json";
+
+let profiles = [];
+let activeProfile = null;
+
+// Robust CSV parser — handles quoted fields with commas inside
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = parseCSVRow(lines[0]);
+  return lines.slice(1).filter(l => l.trim()).map(line => {
+    const values = parseCSVRow(line);
+    const row = {};
+    headers.forEach((h, i) => row[h.trim()] = (values[i] || '').trim());
+    return {
+      name:      row['Name']      || '',
+      photo:     row['Photo_URL'] || `https://ui-avatars.com/api/?name=${encodeURIComponent(row['Name'] || 'Leader')}&size=200&background=0055FF&color=fff`,
+      country:   row['Country']   || '',
+      region:    row['Region']    || '',
+      company:   row['Company']   || '',
+      role:      row['Role']      || '',
+      sector:    row['Sector']    || '',
+      expertise: splitMulti(row['Expertise']),
+      language:  splitMulti(row['Language']),
+      bio:       row['Bio']       || '',
+      linkedin:  row['LinkedIn']  || '#',
+    };
+  }).filter(p => p.name); // skip blank rows
+}
+
+function parseCSVRow(line) {
+  const result = [];
+  let cur = '', inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i+1] === '"') { cur += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (ch === ',' && !inQuotes) {
+      result.push(cur); cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  result.push(cur);
+  return result;
+}
+
+// Split multi-value fields — supports semicolon, pipe, or comma separator
+function splitMulti(val) {
+  if (!val) return [];
+  const sep = val.includes(';') ? ';' : val.includes('|') ? '|' : ',';
+  return val.split(sep).map(s => s.trim()).filter(Boolean);
+}
+
+// ── LOADING STATE ──
+function showLoading() {
+  document.getElementById('profile-grid').innerHTML = `
+    <div style="grid-column:1/-1;padding:60px;text-align:center;color:var(--ink-3)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:12px;">
+        Loading profiles...
+      </div>
+      <div style="width:40px;height:2px;background:var(--blue);margin:0 auto;animation:loadbar 1s ease infinite alternate"></div>
+    </div>`;
+}
+
+function showError(msg) {
+  document.getElementById('profile-grid').innerHTML = `
+    <div style="grid-column:1/-1;padding:60px;text-align:center;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;">Connection Error</div>
+      <div style="font-size:13px;color:var(--ink-2);">${msg}</div>
+      <div style="margin-top:16px;font-size:12px;color:var(--ink-3);">Check that the Google Sheet is published publicly.</div>
+    </div>`;
+}
+
+// ── DYNAMIC FILTER BUILDER ──
+function buildFilters(data) {
+  // Region filters
+  const regions = [...new Set(data.map(p => p.region).filter(Boolean))].sort();
+  const regionCounts = regions.map(r => ({ val: r, count: data.filter(p => p.region === r).length }));
+
+  // Sector filters
+  const sectors = [...new Set(data.map(p => p.sector).filter(Boolean))].sort();
+  const sectorCounts = sectors.map(s => ({ val: s, count: data.filter(p => p.sector === s).length }));
+
+  document.getElementById('region-filters').innerHTML = regionCounts.map(r => `
+    <label class="filter-option">
+      <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+      <span class="filter-option-label">${r.val}</span>
+      <span class="filter-option-count">${r.count}</span>
+    </label>`).join('');
+
+  document.getElementById('sector-filters').innerHTML = sectorCounts.map(s => `
+    <label class="filter-option">
+      <div class="filter-checkbox" onclick="toggleCheck(this)"></div>
+      <span class="filter-option-label">${s.val}</span>
+      <span class="filter-option-count">${s.count}</span>
+    </label>`).join('');
+}
+
+// ── UPDATE STATS BAR ──
+function updateStats(data) {
+  const countries  = new Set(data.map(p => p.country).filter(Boolean));
+  const regions    = new Set(data.map(p => p.region).filter(Boolean));
+  const sectors    = new Set(data.map(p => p.sector).filter(Boolean));
+  const languages  = new Set(data.flatMap(p => p.language).filter(Boolean));
+  document.getElementById('total-count').textContent  = data.length;
+  document.querySelector('.stats-bar').innerHTML = `
+    <div class="stat-item"><span class="stat-value">${data.length}</span><span class="stat-label">Leaders Profiled</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-value">${regions.size}</span><span class="stat-label">Regions Covered</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-value">${countries.size}</span><span class="stat-label">Countries</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-value">${sectors.size}</span><span class="stat-label">Sectors</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><span class="stat-value">${languages.size}</span><span class="stat-label">Languages</span></div>
+  `;
+}
+
+function renderCards(data) {
+  const grid = document.getElementById('profile-grid');
+  document.getElementById('shown-count').textContent = data.length;
+  grid.innerHTML = data.map((p, i) => `
+    <div class="profile-card ${activeProfile === p.name ? 'active' : ''}" onclick="openDetail(${profiles.indexOf(p)})">
+      <div class="card-top">
+        <img class="card-photo" src="${p.photo}" alt="${p.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&size=200&background=0055FF&color=fff'">
+        <div class="card-identity">
+          <div class="card-name">${p.name}</div>
+          <div class="card-role">${p.role}</div>
+          <div class="card-org">${p.company}</div>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="tag blue">${p.sector.split(' ')[0]}</span>
+        ${p.expertise.slice(0,2).map(e => `<span class="tag">${e}</span>`).join('')}
+      </div>
+      <div class="card-footer">
+        <span class="card-country"><span class="country-dot"></span>${p.country}</span>
+        <span class="card-arrow">→</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openDetail(idx) {
+  const p = profiles[idx];
+  activeProfile = p.name;
+  document.getElementById('detail-photo').src = p.photo;
+  document.getElementById('detail-photo').onerror = function(){ this.src=`https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&size=200&background=0055FF&color=fff`};
+  document.getElementById('detail-name').textContent = p.name;
+  document.getElementById('detail-role').textContent = p.role;
+  document.getElementById('detail-org').textContent = p.company;
+  document.getElementById('detail-bio').textContent = p.bio;
+  document.getElementById('detail-expertise').innerHTML = p.expertise.map(e => `<span class="tag blue">${e}</span>`).join('') + p.language.map(l => `<span class="tag green">${l}</span>`).join('');
+  document.getElementById('detail-meta').innerHTML = `
+    <div class="detail-meta-item"><span class="detail-meta-key">Country</span><span class="detail-meta-val">${p.country}</span></div>
+    <div class="detail-meta-item"><span class="detail-meta-key">Region</span><span class="detail-meta-val">${p.region}</span></div>
+    <div class="detail-meta-item"><span class="detail-meta-key">Sector</span><span class="detail-meta-val">${p.sector}</span></div>
+    <div class="detail-meta-item"><span class="detail-meta-key">Role Type</span><span class="detail-meta-val">${p.role}</span></div>
+  `;
+  document.getElementById('detail-callout-text').innerHTML = `Active in <strong>${p.sector}</strong> with expertise spanning ${p.expertise.join(', ')}.`;
+  document.getElementById('detail-linkedin').href = p.linkedin;
+  document.getElementById('detail-overlay').classList.add('open');
+  renderCards(getFilteredProfiles());
+}
+
+function closeDetail(e) {
+  if (e.target === document.getElementById('detail-overlay')) closeDetailPanel();
+}
+
+function closeDetailPanel() {
+  document.getElementById('detail-overlay').classList.remove('open');
+  activeProfile = null;
+  renderCards(getFilteredProfiles());
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  applyFilters();
+}
+
+function toggleGroup(header) {
+  const opts = header.nextElementSibling;
+  const chev = header.querySelector('.filter-chevron');
+  if (opts.style.display === 'none') {
+    opts.style.display = 'flex';
+    chev.textContent = '▼';
+  } else {
+    opts.style.display = 'none';
+    chev.textContent = '▶';
+  }
+}
+
+function getCheckedLabels(groupId) {
+  const group = document.getElementById(groupId);
+  if (!group) return [];
+  return Array.from(group.querySelectorAll('.filter-checkbox.checked'))
+    .map(cb => cb.nextElementSibling.textContent.trim());
+}
+
+function getFilteredProfiles() {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const regions = getCheckedLabels('region-filters');
+  const sectors = getCheckedLabels('sector-filters');
+
+  return profiles.filter(p => {
+    const matchSearch = !search ||
+      p.name.toLowerCase().includes(search) ||
+      p.company.toLowerCase().includes(search) ||
+      p.expertise.some(e => e.toLowerCase().includes(search)) ||
+      p.bio.toLowerCase().includes(search);
+    const matchRegion = !regions.length || regions.includes(p.region);
+    const matchSector = !sectors.length || sectors.some(s => p.sector.includes(s.split(' ')[0]));
+    return matchSearch && matchRegion && matchSector;
+  });
+}
+
+function applyFilters() {
+  const filtered = getFilteredProfiles();
+  renderCards(filtered);
+  updateActiveFilterTags();
+}
+
+function updateActiveFilterTags() {
+  const container = document.getElementById('active-filters');
+  const regions = getCheckedLabels('region-filters');
+  const sectors = getCheckedLabels('sector-filters');
+  const search = document.getElementById('search-input').value;
+  const all = [...regions, ...sectors, ...(search ? [`"${search}"`] : [])];
+  container.innerHTML = all.map(f => `
+    <span class="active-filter-tag">${f} <span class="remove-filter" onclick="removeFilter('${f}')">✕</span></span>
+  `).join('');
+}
+
+function removeFilter(label) {
+  document.getElementById('search-input').value = '';
+  document.querySelectorAll('.filter-checkbox.checked').forEach(cb => {
+    if (cb.nextElementSibling.textContent.trim() === label) cb.classList.remove('checked');
+  });
+  applyFilters();
+}
+
+function resetFilters() {
+  document.querySelectorAll('.filter-checkbox.checked').forEach(cb => cb.classList.remove('checked'));
+  document.getElementById('search-input').value = '';
+  applyFilters();
+}
+
+// ── INIT ──
+// Uses inline data when opened as local file, fetches profiles.json when hosted
+showLoading();
+
+if (typeof PROFILES_INLINE !== 'undefined' && PROFILES_INLINE.length) {
+  // Instant load from embedded data — works offline and from file://
+  profiles = PROFILES_INLINE;
+  buildFilters(profiles);
+  updateStats(profiles);
+  renderCards(profiles);
+} else {
+  fetch(DATA_SOURCE)
+  .then(res => {
+    if (!res.ok) throw new Error('Could not load profiles.json — make sure it is in the same folder as this HTML file.');
+    return res.json();
+  })
+  .then(data => {
+    profiles = data;
+    if (!profiles.length) throw new Error('profiles.json is empty.');
+    buildFilters(profiles);
+    updateStats(profiles);
+    renderCards(profiles);
+  })
+  .catch(err => {
+    // Fallback: if fetch blocked (e.g. opened as file:// directly), try inline load
+    if (typeof PROFILES_INLINE !== 'undefined') {
+      profiles = PROFILES_INLINE;
+      buildFilters(profiles);
+      updateStats(profiles);
+      renderCards(profiles);
+    } else {
+      showError(err.message);
+    }
+  });
+}
+</script>
+</body>
+</html>
