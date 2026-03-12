@@ -775,53 +775,7 @@
     color: var(--white);
   }
 
-  /* ── MAP PLACEHOLDER ── */
-  .map-section {
-    background: var(--white);
-    border: 1px solid var(--rule);
-    padding: 0;
-    overflow: hidden;
-  }
-
-  .map-header {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--rule);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--bg);
-  }
-
-  .map-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--blue);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .map-label::before {
-    content: '';
-    width: 12px; height: 1px;
-    background: var(--blue);
-  }
-
-  .map-canvas {
-    height: 160px;
-    background: var(--bg);
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* SVG world map dots */
-  .map-canvas svg {
-    width: 100%;
-    height: 100%;
-  }
-
+  
   /* ── FOOTER ── */
   footer {
     background: var(--bg);
@@ -1094,83 +1048,6 @@
 
   <!-- CONTENT -->
   <div class="content-area">
-
-    <!-- Map -->
-    <div class="map-section">
-      <div class="map-header">
-        <span class="map-label">Geographic Distribution</span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink-3);letter-spacing:0.1em;text-transform:uppercase;">● Live · 12 Countries</span>
-      </div>
-      <div class="map-canvas">
-        <!-- Schematic world map with dots representing leaders -->
-        <svg viewBox="0 0 900 160" xmlns="http://www.w3.org/2000/svg" style="opacity:0.9">
-          <!-- Grid lines -->
-          <defs>
-            <pattern id="mapgrid" width="45" height="40" patternUnits="userSpaceOnUse">
-              <path d="M 45 0 L 0 0 0 40" fill="none" stroke="#C8D4E8" stroke-width="0.5" opacity="0.5"/>
-            </pattern>
-          </defs>
-          <rect width="900" height="160" fill="#F6F9FF"/>
-          <rect width="900" height="160" fill="url(#mapgrid)"/>
-
-          <!-- Equator line -->
-          <line x1="0" y1="80" x2="900" y2="80" stroke="#C8D4E8" stroke-width="0.5" stroke-dasharray="4,4"/>
-
-          <!-- Simplified continent outlines -->
-          <!-- North America -->
-          <path d="M 120,30 L 200,25 L 240,40 L 260,70 L 240,100 L 200,110 L 170,100 L 140,80 L 120,60 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
-          <!-- South America -->
-          <path d="M 200,115 L 240,110 L 260,130 L 255,155 L 220,158 L 195,145 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
-          <!-- Europe -->
-          <path d="M 400,20 L 460,18 L 475,35 L 460,55 L 420,58 L 395,45 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
-          <!-- Africa -->
-          <path d="M 420,65 L 475,60 L 490,85 L 485,130 L 460,150 L 430,148 L 410,125 L 405,90 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
-          <!-- Asia -->
-          <path d="M 490,15 L 650,12 L 700,35 L 720,60 L 680,75 L 600,80 L 520,70 L 490,50 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
-          <!-- Southeast Asia / Oceania -->
-          <path d="M 690,90 L 750,85 L 800,100 L 820,130 L 780,148 L 730,140 L 700,120 Z" fill="none" stroke="#C8D4E8" stroke-width="1"/>
-
-          <!-- Leader location dots -->
-          <!-- USA x4 -->
-          <circle cx="175" cy="62" r="6" fill="#0055FF" opacity="0.85"/>
-          <circle cx="175" cy="62" r="10" fill="#0055FF" opacity="0.15"/>
-          <text x="175" y="59" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">8</text>
-
-          <!-- India -->
-          <circle cx="580" cy="68" r="5" fill="#00C8FF" opacity="0.9"/>
-          <circle cx="580" cy="68" r="9" fill="#00C8FF" opacity="0.2"/>
-          <text x="580" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">2</text>
-
-          <!-- Kenya -->
-          <circle cx="460" cy="100" r="5" fill="#00C8FF" opacity="0.9"/>
-          <circle cx="460" cy="100" r="9" fill="#00C8FF" opacity="0.2"/>
-          <text x="460" y="97" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">2</text>
-
-          <!-- Nigeria -->
-          <circle cx="430" cy="95" r="4" fill="#00916A" opacity="0.9"/>
-          <circle cx="430" cy="95" r="8" fill="#00916A" opacity="0.2"/>
-          <text x="430" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">1</text>
-
-          <!-- UK -->
-          <circle cx="415" cy="32" r="4" fill="#00C8FF" opacity="0.9"/>
-          <circle cx="415" cy="32" r="8" fill="#00C8FF" opacity="0.2"/>
-          <text x="415" y="29" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">1</text>
-
-          <!-- Spain -->
-          <circle cx="425" cy="42" r="4" fill="#00C8FF" opacity="0.9"/>
-          <circle cx="425" cy="42" r="8" fill="#00C8FF" opacity="0.2"/>
-          <text x="425" y="39" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="white" font-weight="500">1</text>
-
-          <!-- Legend -->
-          <circle cx="720" cy="20" r="5" fill="#0055FF" opacity="0.85"/>
-          <text x="730" y="24" font-family="JetBrains Mono" font-size="8" fill="#8494AD" letter-spacing="0.05em">HIGH DENSITY</text>
-          <circle cx="720" cy="38" r="4" fill="#00C8FF" opacity="0.85"/>
-          <text x="730" y="42" font-family="JetBrains Mono" font-size="8" fill="#8494AD" letter-spacing="0.05em">2–3 LEADERS</text>
-          <circle cx="720" cy="55" r="3" fill="#00916A" opacity="0.85"/>
-          <text x="730" y="59" font-family="JetBrains Mono" font-size="8" fill="#8494AD" letter-spacing="0.05em">1 LEADER</text>
-        </svg>
-      </div>
-    </div>
 
     <!-- Results bar -->
     <div class="results-bar">
